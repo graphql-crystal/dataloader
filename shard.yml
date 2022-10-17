@@ -1,0 +1,9 @@
+name: graphql-dataloader
+version: 0.1.0
+
+authors:
+  - Joakim Repomaa <mail@j.repomaa.com>
+
+crystal: 1.6.0
+
+license: MIT
