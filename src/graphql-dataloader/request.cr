@@ -1,9 +1,13 @@
 module GraphQL::DataLoader
   struct Request(O, K, V)
+    record Result(V), value : V
+
     getter key : K
     getter object : O
     private getter result_channel = Channel(V).new(1)
     private getter exception_channel = Channel(Exception).new(1)
+    private property cached_result : Result(V)?
+    private property cached_exception : Exception?
 
     def initialize(@key : K, @object : O)
     end
@@ -21,10 +25,10 @@ module GraphQL::DataLoader
     end
 
     def result : V
-      exception = exception_channel.receive?
-      raise exception if exception
-
-      result_channel.receive
+      exception = self.cached_exception ||= exception_channel.receive?
+      ::raise exception if exception
+      result = self.cached_result ||= Result.new(result_channel.receive)
+      result.value
     end
   end
 end
