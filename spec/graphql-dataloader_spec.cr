@@ -1,9 +1,7 @@
 require "./spec_helper"
 
-describe Graphql::Dataloader do
-  # TODO: Write tests
-
-  it "works" do
-    false.should eq(true)
+describe GraphQL::DataLoader do
+  it "has a version number" do
+    GraphQL::DataLoader::VERSION.should_not be_nil
   end
 end
