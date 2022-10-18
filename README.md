@@ -16,7 +16,7 @@ A batch loading library to help prevent N+1 queries
 
 ## Usage
 
-See (examples)[examples] for working examples. It's possible to use
+See [examples](examples) for working examples. It's possible to use
 GraphQL::Dataloader outside of a GraphQL application. It can be a nice
 abstraction for any type data fetching benefitting from batching (i.e. fetching
 data from a REST API). In GraphQL however it quickly becomes almost a
