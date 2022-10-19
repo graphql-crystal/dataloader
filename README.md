@@ -90,7 +90,7 @@ Here's how we can improve the situation above:
 ``` crystal
 class UserLoader < GraphQL::DataLoader::Loader(Int32, Int32, User?)
   def fetch(batch ids : Array(Int32)) : Array(User?)
-    users = UserQuery.new.id(ids).to_a
+    users = UserQuery.new.id.in(ids).to_a
     # Make sure to return results having the same size and order as the batch
     ids.map { |id| users.find { |user| user.id == id } }
   end
@@ -102,7 +102,7 @@ class UserBlogPostsLoader < GraphQL::DataLoader::Loader(User, Int32, Array(BlogP
   end
 
   def fetch(batch users : Array(User)) : Array(Array(BlogPost))
-    blog_posts = BlogPostQuery.new.author_id(users.map(&.id))
+    blog_posts = BlogPostQuery.new.author_id.in(users.map(&.id))
     users.map do |user|
       blog_posts.select { |blog_post| blog_post.author_id == user.id } }
     end
