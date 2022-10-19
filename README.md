@@ -102,7 +102,7 @@ class UserBlogPostsLoader < GraphQL::DataLoader::Loader(User, Int32, Array(BlogP
   end
 
   def fetch(batch users : Array(User)) : Array(Array(BlogPost))
-    blog_posts = BlogPostQuery.new.author_id.in(users.map(&.id))
+    blog_posts = BlogPostQuery.new.author_id.in(users.map(&.id)).to_a
     users.map do |user|
       blog_posts.select { |blog_post| blog_post.author_id == user.id } }
     end
