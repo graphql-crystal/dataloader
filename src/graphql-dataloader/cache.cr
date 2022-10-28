@@ -11,9 +11,12 @@ module GraphQL::DataLoader
       end
     end
 
-    private abstract def has_key?(key : K) : Bool
-    private abstract def [](key : K) : V
-    private abstract def []=(key : K, value : V) : Nil
+    abstract def has_key?(key : K) : Bool
+    abstract def [](key : K) : V
+    abstract def []?(key : K) : V?
+    abstract def []=(key : K, value : V) : Nil
+    abstract def delete(key : K) : Nil
+    abstract def clear : Nil
 
     # Override this method for caches where values expire for thread safety
     private def synchronize(&block : -> V) : V

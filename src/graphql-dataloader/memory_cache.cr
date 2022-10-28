@@ -4,16 +4,28 @@ module GraphQL::DataLoader
 
     private getter cache = Hash(K, V).new
 
-    private def has_key?(key : K) : Bool
+    def has_key?(key : K) : Bool
       cache.has_key?(key)
     end
 
-    private def [](key : K) : V
+    def [](key : K) : V
       cache[key]
     end
 
-    private def []=(key : K, value : V) : Nil
+    def []?(key : K) : V?
+      cache[key]?
+    end
+
+    def []=(key : K, value : V) : Nil
       cache[key] = value
+    end
+
+    def clear : Nil
+      cache.clear
+    end
+
+    def delete(key : K) : Nil
+      cache.delete(key)
     end
   end
 end

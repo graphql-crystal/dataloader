@@ -100,4 +100,42 @@ describe GraphQL::DataLoader::Loader do
     loader.batch_log.size.should eq(1)
     loader.batch_log.first.should eq([1, 2])
   end
+
+  it "primes the cache" do
+    users = [
+      User.new(1, "Ada"),
+      User.new(2, "Grace"),
+    ]
+    loader = UserLoader.new(users)
+    loader.prime(1, users[0])
+    loader.load(1).should eq(users[0])
+    loader.load(2).should eq(users[0])
+    loader.batch_log.size.should eq(1)
+  end
+
+  it "clears the cache" do
+    users = [
+      User.new(1, "Ada"),
+      User.new(2, "Grace"),
+    ]
+    loader = UserLoader.new(users)
+    loader.load(1).should eq(users[0])
+    loader.clear
+    loader.load(1).should eq(users[0])
+    loader.batch_log.size.should eq(2)
+  end
+
+  it "clears a single cache entry" do
+    users = [
+      User.new(1, "Ada"),
+      User.new(2, "Grace"),
+    ]
+    loader = UserLoader.new(users)
+    loader.load(1).should eq(users[0])
+    loader.prime(2, users[1])
+    loader.clear(1)
+    loader.load(1).should eq(users[0])
+    loader.load(2).should eq(users[1])
+    loader.batch_log.size.should eq(2)
+  end
 end

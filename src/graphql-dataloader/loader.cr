@@ -39,6 +39,21 @@ module GraphQL::DataLoader
       objects.map { |object| load(object) }
     end
 
+    def prime(object : O, value : V) : self
+      cache[key_for(object)] ||= value
+      self
+    end
+
+    def clear(object : O) : self
+      cache.delete(key_for(object))
+      self
+    end
+
+    def clear : self
+      cache.clear
+      self
+    end
+
     # The batch loading method.
     # Gets called with all objects that have been passed to `#load` in the current batch.
     # A batch is fetched after 1 microsecond since the first call to `#load`.
